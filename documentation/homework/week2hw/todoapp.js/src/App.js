@@ -1,16 +1,31 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Checkbox from './Checkbox.js';
-//import Checkbox2 from './Checkbox2.js';
-//import data from './todo.json'; 
+//import Checkbox from './Checkbox.js';
+import Data from './todo.json';
+import Todos from './todos.js';
+
 
 class App extends Component {
-  constructor(props){
-  super(props);
+  constructor(props) {
+    super(props);
 
-  let data = require('./todo.json');
-  console.log(data);
+    this.state = { data: Data };
+    console.log(Data);
+
+    this.handleDone = this.handleDone.bind(this);
+  }
+
+  handleDone(event) {
+    const id = Number(event.target.value);
+
+    const modifiedData = this.state.data.map(todo => {
+      if (todo.id === id) {
+        todo.done = !todo.done;
+      }
+      return true;
+    });
+    this.setState(() => { return modifiedData });
   }
 
   render() {
@@ -21,7 +36,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to Your TO DO LIST:</h1>
         </header>
         <div className="App-todo-box">
-          <Checkbox />
+          <Todos data={this.state.data} doneHandler={this.handleDone} />
         </div>
       </div>
     );
